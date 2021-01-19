@@ -94,6 +94,12 @@ export const fetchAllCates = params => axios({
   params
 })
 
+// 获取轮播图
+export const fetchAdList = params => axios({
+  params,
+  url: '/jd/ad/list'
+})
+
 
 // 这样做的目的，为了将挂在Vue.prototype原型链上，然后在组件中就可以使用this来访问
 export default {
@@ -106,7 +112,8 @@ export default {
   fetchDelCart,
   fetchUpdCart,
   fetchSubmit,
-  fetchAllCates
+  fetchAllCates,
+  fetchAdList
 }
 
 // 在同一个js模块中:

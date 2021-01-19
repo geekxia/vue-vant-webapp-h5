@@ -14,14 +14,17 @@
 
     <!-- 轮播图 -->
     <van-swipe :autoplay="5000" @change='swipeChange'>
-      <van-swipe-item v-for="(image, index) in images" :key="index">
-        <img class='qf-swipe-img' v-lazy="image" />
+      <van-swipe-item v-for="(item, index) in images" :key="index">
+        <img class='qf-swipe-img' v-lazy="$img.url+item.img" />
       </van-swipe-item>
       <template #indicator>
         <div class="qf-indicator">
-          <span :class='{"on":swipeIdx==0}'>1</span>
-          <span :class='{"on":swipeIdx==1}'>2</span>
-          <span :class='{"on":swipeIdx==2}'>3</span>
+          <span
+            v-for='i in images.length'
+            :class='{"on":swipeIdx==(i-1)}'
+            :key='i'
+            v-text='i'>
+            </span>
         </div>
       </template>
     </van-swipe>
@@ -89,11 +92,7 @@ export default {
   data: function() {
     return {
       msg: '2021一起搞钱一起暴富2021一起搞钱一起暴富2021一起搞钱一起暴富',
-      images: [
-        '//imgcps.jd.com/ling4/10025587420549/576957uS5pyN5Zeo5bm05Y2O/5YC85b6X5L2g56eN6I2J/p-5fb1f71ba031dc0afaf817d0/92702b02/cr_1125x445_0_171/s1125x690/q70.jpg',
-        '//m.360buyimg.com/mobilecms/s700x280_jfs/t1/163604/39/140/99742/5fed2dc6E517dca00/7b3f4ebd1ed2e45e.jpg!q70.jpg.dpg',
-        '//m.360buyimg.com/mobilecms/s700x280_jfs/t1/153168/29/12814/78331/5fed3537E36684f0e/bb8f243685246700.jpg!q70.jpg.dpg'
-      ],
+      images: [],
       swipeIdx: 0,
       loading: false,
       finished: false,
@@ -110,6 +109,9 @@ export default {
   mounted() {
     // 请求第一页数据
     this.getList()
+    this.$http.fetchAdList({}).then(res=>{
+      this.images = res.list
+    })
   },
   beforeDestroy() {
     console.log('首页将要被销毁')
@@ -156,6 +158,9 @@ export default {
       // 获取数据库商品列表的第一页数据
       this.page = 1
       this.getList()
+      this.$http.fetchAdList({}).then(res=>{
+        this.images = res.list
+      })
     },
     // 当滚动条触底检测成功时，调用该方法
     onLoad() {

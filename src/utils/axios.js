@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { Toast } from 'vant'
 
-const baseURL = 'http://localhost:8083'
+const baseURL = 'http://localhost:8886'
 const version = '/api/v1'
 
 // 创建一个axios实例
